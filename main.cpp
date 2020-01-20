@@ -17,7 +17,7 @@ int main(){
 
     myGraph->printGraph();
 
-    //myGraph->removeNode(&myNode2);
+    myGraph->removeNode(&myNode2);
 
     myGraph->printGraph();
     //std::cout << myNode1.hasBeenSeen() << std::endl;

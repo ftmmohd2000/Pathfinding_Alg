@@ -38,6 +38,7 @@ bool Graph::removeNode(NodeObject *node){
     for(std::vector<NodeObject*>::iterator i = Graph::graphList->begin();i!=Graph::graphList->end();++i){
         if(*i == node){
             Graph::graphList->erase(i);
+            break;
         }
     }
     for(std::vector<int>::iterator i = Graph::refList->begin();i!=Graph::refList->end();++i){
@@ -77,6 +78,16 @@ NodeObject* Graph::getNode(int id){
 
 std::vector<NodeObject*> Graph::findPath(Graph *g,NodeObject *start, NodeObject *target){
     return Graph::pathfinder(g,start,target);
+}
+
+
+void Graph::printVec(std::vector<NodeObject*> myVec){
+    std::cout<<"**********";
+
+    for(std::vector<NodeObject*>::iterator i = myVec.begin();i!=myVec.end();++i)
+        std::cout<<(*i)->getID()<<" ";
+
+    std::cout<<"**********"<<std::endl;
 }
 
 Graph::~Graph(){

@@ -15,6 +15,7 @@ class Graph{
         void printGraph(); //Prints the values and connections contained by each node in the graph
         NodeObject* getNode(int); //Returns pointer to a specific node in the graph
         std::vector<NodeObject*> findPath(Graph*,NodeObject*,NodeObject*); //Returns a vector representing path found from start node to target node
+        void printVec(std::vector<NodeObject*>);
         ~Graph(); //Destructor
     private:
         std::vector<int>* refList;
