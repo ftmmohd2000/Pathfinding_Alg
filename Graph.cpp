@@ -18,53 +18,51 @@ int Graph::getSize(){
     return Graph::graphList->size();
 }
 
-bool Graph::addNode(NodeObject *node,int id){
+void Graph::addNode(int id){
 
-    for(std::vector<int>::iterator i = Graph::refList->begin();i!=Graph::refList->end();++i){
-        if((*i) == id)
-            return false;
-    }
+    NodeObject* newNode = new NodeObject(id);
+
+    for(std::vector<int>::iterator i = Graph::refList->begin();i!=Graph::refList->end();++i)
+        if((*i) == id){
+            delete newNode;
+            return;
+        }
 
     Graph::refList->push_back(id);
-    Graph::graphList->push_back(node);
-
-    return true;
+    Graph::graphList->push_back(newNode);
 }
 
-bool Graph::removeNode(NodeObject *node){
+void Graph::removeNode(NodeObject *node){
 
     int id = node->getID();
+    std::vector<NodeObject*>::iterator i,j;
+    bool flag;
 
-    for(std::vector<NodeObject*>::iterator i = Graph::graphList->begin();i!=Graph::graphList->end();++i){
+    for(i = Graph::graphList->begin();i!=Graph::graphList->end();++i)
         if(*i == node){
-            Graph::graphList->erase(i);
+            flag = true;
             break;
         }
+
+    if (flag){
+
+        std::vector<NodeObject*> temp = node->getParents();
+
+        for(j = temp.begin();j!=temp.end();++j)
+            (*j)->removeChild(node);
+
+        temp = node->getChildren();
+
+        for(j = temp.begin();j!=temp.end();++j)
+            (*j)->removeParent(node);
+
+        Graph::graphList->erase(i);
+
+        delete node;
     }
-    for(std::vector<int>::iterator i = Graph::refList->begin();i!=Graph::refList->end();++i){
-        if(*i == id){
-            Graph::refList->erase(i);
-            return true;
-        }
-    }
+    else
+        return;
 
-    return false;
-}
-
-void Graph::printGraph(){
-
-    std::vector<NodeObject*> tempArr;
-
-    for(std::vector<NodeObject*>::iterator i = Graph::graphList->begin();i!=Graph::graphList->end();++i){
-        tempArr = ((*i)->getCons());
-
-        std::cout<<"Node ID "<<(*i)->getID()<<" connects to: ";
-
-        for(std::vector<NodeObject*>::iterator j = tempArr.begin();j!=tempArr.end();++j)
-            std::cout<<(*j)->getID()<<" ";
-        
-        std::cout<<std::endl;
-    }
 }
 
 NodeObject* Graph::getNode(int id){
@@ -80,6 +78,31 @@ std::vector<NodeObject*> Graph::findPath(Graph *g,NodeObject *start, NodeObject 
     return Graph::pathfinder(g,start,target);
 }
 
+void Graph::addEdge(NodeObject* parent, NodeObject* child){
+    parent->addChild(child);
+    child->addParent(parent);
+}
+
+void Graph::removeEdge(NodeObject* parent, NodeObject* child){
+    parent->removeChild(child);
+    child->removeParent(parent);
+}
+
+void Graph::printGraph(){
+
+    std::vector<NodeObject*> tempArr;
+
+    for(std::vector<NodeObject*>::iterator i = Graph::graphList->begin();i!=Graph::graphList->end();++i){
+        tempArr = ((*i)->getChildren());
+
+        std::cout<<"Node ID "<<(*i)->getID()<<" connects to: ";
+
+        for(std::vector<NodeObject*>::iterator j = tempArr.begin();j!=tempArr.end();++j)
+            std::cout<<(*j)->getID()<<" ";
+        
+        std::cout<<std::endl;
+    }
+}
 
 void Graph::printVec(std::vector<NodeObject*> myVec){
     std::cout<<"**********";
@@ -90,8 +113,14 @@ void Graph::printVec(std::vector<NodeObject*> myVec){
     std::cout<<"**********"<<std::endl;
 }
 
+void Graph::setUnseen(){
+    std::vector<NodeObject*>::iterator i;
+
+    for(i=Graph::graphList->begin();i!=Graph::graphList->end();++i)
+        (*i)->setSeen(false);
+}
+
 Graph::~Graph(){
     delete graphList;
     delete refList;
 }
-

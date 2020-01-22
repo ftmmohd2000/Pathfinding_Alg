@@ -3,7 +3,8 @@
 
 NodeObject::NodeObject(int val){
     NodeObject::ID = val;
-    NodeObject::nConnections = 0;
+    NodeObject::nChildren = 0;
+    NodeObject::nParents = 0;
     NodeObject::seen = false;
 }
 
@@ -19,25 +20,60 @@ void NodeObject::setSeen(bool choice){
     NodeObject::seen = choice;
 }
 
-void NodeObject::joinTo(NodeObject *next){
-    NodeObject::pointers.push_back(next);
-    NodeObject::nConnections++;
+void NodeObject::addChild(NodeObject *newChild){
+
+    for(int i = 0;i<NodeObject::children.size();i++)
+        if(NodeObject::children.at(i) == newChild)
+            return;
+        
+
+    NodeObject::children.push_back(newChild);
+    newChild->addParent(this);
+    NodeObject::nChildren++;
 }
 
-bool NodeObject::removeCon(NodeObject* toBeGone){
-   int i,size = NodeObject::pointers.size();
+void NodeObject::removeChild(NodeObject* toBeGone){
+   
+    std::vector<NodeObject*>::iterator i;
 
-   for(i=0;i<size;i++)
-        if(NodeObject::pointers.at(i) == toBeGone){
-            NodeObject::pointers.erase(NodeObject::pointers.begin() + 1 + i);
-            return true;
+   for(i=NodeObject::children.begin();i!=NodeObject::children.end();++i)
+        if(*i == toBeGone){
+            NodeObject::children.erase(i);
+            NodeObject::nChildren--;
+            return;
         }
-
-    return false;        
 }
 
-std::vector<NodeObject*> NodeObject::getCons(){
-    return NodeObject::pointers;
+void NodeObject::addParent(NodeObject* newParent){
+
+    for(int i = 0;i<NodeObject::parents.size();i++)
+        if(NodeObject::parents.at(i) == newParent)
+            return;
+        
+
+    NodeObject::parents.push_back(newParent);
+    newParent->addParent(this);
+    NodeObject::nParents++;
+}
+
+void NodeObject::removeParent(NodeObject* toBeGone){
+    
+    std::vector<NodeObject*>::iterator i;
+    
+    for(i = NodeObject::parents.begin();i!=NodeObject::parents.end();++i)
+        if(*i == toBeGone){
+            NodeObject::parents.erase(i);
+            NodeObject::nParents--;
+            return;
+        }
+}
+
+std::vector<NodeObject*> NodeObject::getChildren(){
+    return NodeObject::children;
+}
+
+std::vector<NodeObject*> NodeObject::getParents(){
+    return NodeObject::parents;
 }
 
 NodeObject::~NodeObject(){
