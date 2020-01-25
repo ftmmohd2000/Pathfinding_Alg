@@ -1,6 +1,7 @@
 #include <iostream>
 #include "Graph.h"
 #include "NodeObject.h"
+#include <fstream>
 
 Graph::Graph(){
     Graph::graphList = new std::vector<NodeObject*>();
@@ -118,6 +119,20 @@ void Graph::setUnseen(){
 
     for(i=Graph::graphList->begin();i!=Graph::graphList->end();++i)
         (*i)->setSeen(false);
+}
+
+void Graph::writeToFile(){
+    std::vector<NodeObject*>::iterator i,j;
+    std::ofstream fptr;
+    
+    fptr.open("existing.txt");
+    for(i=Graph::graphList->begin();i!=Graph::graphList->end();++i){
+        fptr << (*i)->getID();
+        std::vector<NodeObject*> tempAr = (*i)->getChildren();
+        for(j = tempAr.begin();j!=tempAr.end();++j)
+            fptr << " " << (*j)->getID();
+        fptr << std::endl;
+    }
 }
 
 Graph::~Graph(){
