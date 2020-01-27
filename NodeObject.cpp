@@ -20,7 +20,7 @@ void NodeObject::setSeen(bool choice){
     NodeObject::seen = choice;
 }
 
-void NodeObject::addChild(NodeObject *newChild){
+void NodeObject::addChild(NodeObject *newChild,int weight){
 
     for(int i = 0;i<NodeObject::children.size();i++)
         if(NodeObject::children.at(i) == newChild)
@@ -28,6 +28,7 @@ void NodeObject::addChild(NodeObject *newChild){
         
 
     NodeObject::children.push_back(newChild);
+    NodeObject::weights.push_back(weight);
     newChild->addParent(this);
     NodeObject::nChildren++;
 }
@@ -66,6 +67,19 @@ void NodeObject::removeParent(NodeObject* toBeGone){
             NodeObject::nParents--;
             return;
         }
+}
+
+int NodeObject::getWeightOf(NodeObject* target){
+
+    int i;
+    int size = NodeObject::children.size();
+
+    for(i=0;i<size;i++)
+        if(target == NodeObject::children[i])
+            break;
+
+    return NodeObject::weights[i];
+
 }
 
 std::vector<NodeObject*> NodeObject::getChildren(){

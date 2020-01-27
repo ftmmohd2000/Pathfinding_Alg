@@ -79,8 +79,8 @@ std::vector<NodeObject*> Graph::findPath(Graph *g,NodeObject *start, NodeObject 
     return Graph::pathfinder(g,start,target);
 }
 
-void Graph::addEdge(NodeObject* parent, NodeObject* child){
-    parent->addChild(child);
+void Graph::addEdge(NodeObject* parent, NodeObject* child,int weight){
+    parent->addChild(child,weight);
     child->addParent(parent);
 }
 
@@ -98,8 +98,10 @@ void Graph::printGraph(){
 
         std::cout<<"Node ID "<<(*i)->getID()<<" connects to: ";
 
-        for(std::vector<NodeObject*>::iterator j = tempArr.begin();j!=tempArr.end();++j)
-            std::cout<<(*j)->getID()<<" ";
+        for(std::vector<NodeObject*>::iterator j = tempArr.begin();j!=tempArr.end();++j){
+            std::cout<<(*j)->getID();
+            std::cout<<"("<<(*i)->getWeightOf(*j)<<") ";
+        }
         
         std::cout<<std::endl;
     }
@@ -129,8 +131,10 @@ void Graph::writeToFile(){
     for(i=Graph::graphList->begin();i!=Graph::graphList->end();++i){
         fptr << (*i)->getID();
         std::vector<NodeObject*> tempAr = (*i)->getChildren();
-        for(j = tempAr.begin();j!=tempAr.end();++j)
+        for(j = tempAr.begin();j!=tempAr.end();++j){
             fptr << " " << (*j)->getID();
+            fptr << " " << (*i)->getWeightOf(*j);
+        }
         fptr << std::endl;
     }
 }

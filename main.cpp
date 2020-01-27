@@ -53,6 +53,7 @@ int get_choice(){
     int user_in;
 
     std::cin >> user_in;
+    while(getchar()!=10);
 
     while(user_in > 7 || user_in < 0){
         std::cout << "Wrong Choice. Enter a number from 1 to 7. 0 to exit: ";
@@ -72,12 +73,16 @@ void do_job(int choice,Graph** graph){
         case 1: myAddNode(*graph);
                 return;
         case 2: myRemoveNode(*graph);
+                std::cout<<"Press enter to continue" << std::endl;
+                getchar();
                 return;
         case 3: myAddEdge(*graph);
                 return;
         case 4: myRemoveEdge(*graph);
                 return;
         case 5: (*graph)->printGraph();
+                std::cout<<"Press enter to continue" << std::endl;
+                getchar();
                 return;
         case 6: clearGraph(graph);
                 return;
@@ -118,13 +123,15 @@ void myRemoveNode(Graph* graph){
 
 void myAddEdge(Graph* graph){
 
-    int in1,in2;
+    int in1,in2,wg;
     NodeObject *pr,*ch;
 
     std::cout << "Enter node ID of parent node: ";
     std::cin >> in1;
     std::cout << "Enter node ID of child node: ";
     std::cin >> in2;
+    std::cout << "Enter Path weight: ";
+    std::cin >> wg;
 
     pr = graph->getNode(in1);
     ch = graph->getNode(in2);
@@ -134,7 +141,7 @@ void myAddEdge(Graph* graph){
         return;
     }
     else
-        graph->addEdge(pr,ch);
+        graph->addEdge(pr,ch,wg);
 
 }
 
@@ -186,7 +193,8 @@ void readGraph(Graph* graph){
                 graph->addNode(myVec.at(i-1));
             
             child = graph->getNode(myVec.at(i-1));
-            graph->addEdge(parent,child);
+            i++;
+            graph->addEdge(parent,child,myVec.at(i-1));
         }
     }
 

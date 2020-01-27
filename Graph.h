@@ -12,7 +12,7 @@ class Graph{
         void addNode(int); //Adding a node to a graph, returns false if the node ID already exists.
         void removeNode(NodeObject*); //Removing a node from the graph in case of deletion, returns false if node doesn't exist in graph.
         NodeObject* getNode(int); //Returns pointer to a specific node in the graph
-        void addEdge(NodeObject*,NodeObject*);
+        void addEdge(NodeObject*,NodeObject*,int);
         void removeEdge(NodeObject*,NodeObject*);       
         void printGraph(); //Prints the values and connections contained by each node in the graph
         void printVec(std::vector<NodeObject*>);
