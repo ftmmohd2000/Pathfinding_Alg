@@ -4,6 +4,7 @@
 #include <string>
 #include "NodeObject.h"
 #include "Graph.h"
+#include "Finders.h"
 
 void print_menu();
 int get_choice();
