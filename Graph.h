@@ -16,7 +16,7 @@ class Graph{
         void removeEdge(NodeObject*,NodeObject*);       
         void printGraph(); //Prints the values and connections contained by each node in the graph
         void printVec(std::vector<NodeObject*>);
-        void setUnseen(); //Sets all Nodes to Seen value false.
+        void setUnseen(); //Sets all Nodes to Seen value false and clears path record.
         void writeToFile();
         ~Graph(); //Destructor
         std::vector<NodeObject*> (*pathfinder)(Graph*,NodeObject*,NodeObject*); //function pointer that can be used by user to point to different algorithms

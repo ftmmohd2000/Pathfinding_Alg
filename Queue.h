@@ -24,6 +24,7 @@ class Queue{
         T* dequeue();
         T* peek();
         bool enqueue(T*);
+        void priorityNQ(T*,void (T::*)());
         int size();
         bool empty();
         ~Queue();

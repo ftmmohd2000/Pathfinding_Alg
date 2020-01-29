@@ -20,4 +20,4 @@ Stack.o: Stack.cpp Stack.h
 	g++ -c Stack.cpp
 
 clean:
-	rm *.o *.gch output
+	rm *.o output

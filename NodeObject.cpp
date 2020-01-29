@@ -6,6 +6,8 @@ NodeObject::NodeObject(int val){
     NodeObject::nChildren = 0;
     NodeObject::nParents = 0;
     NodeObject::seen = false;
+    NodeObject::lastVisited = NULL;
+    NodeObject::pathRecord = 0;
 }
 
 int NodeObject::getID(){
@@ -80,6 +82,11 @@ int NodeObject::getWeightOf(NodeObject* target){
 
     return NodeObject::weights[i];
 
+}
+
+void NodeObject::clearRecord(){
+    NodeObject::lastVisited = NULL;
+    NodeObject::pathRecord = 0;
 }
 
 std::vector<NodeObject*> NodeObject::getChildren(){

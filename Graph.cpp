@@ -119,8 +119,10 @@ void Graph::printVec(std::vector<NodeObject*> myVec){
 void Graph::setUnseen(){
     std::vector<NodeObject*>::iterator i;
 
-    for(i=Graph::graphList->begin();i!=Graph::graphList->end();++i)
+    for(i=Graph::graphList->begin();i!=Graph::graphList->end();++i){
         (*i)->setSeen(false);
+        (*i)->clearRecord();
+    }
 }
 
 void Graph::writeToFile(){
