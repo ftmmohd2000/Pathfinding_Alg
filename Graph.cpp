@@ -1,7 +1,6 @@
 #include <iostream>
-#include "Graph.h"
-#include "NodeObject.h"
 #include <fstream>
+#include "Graph.h"
 
 Graph::Graph(){
     Graph::graphList = new std::vector<NodeObject*>();

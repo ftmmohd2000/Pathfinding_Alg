@@ -1,16 +1,19 @@
 #include "NodeObject.h"
 #include "Graph.h"
+#include "Stack.h"
+#include "Queue.h"
 
 #ifndef FINDERS_H
 #define FINDERS_H
 
 class Finders{
     public:
-
-        static std::vector<NodeObject*> breadthFirstSearch(Graph*,NodeObject*,NodeObject*);
-        static std::vector<NodeObject*> depthFirstSearch(Graph*,NodeObject*,NodeObject*);
-        static std::vector<NodeObject*> dijkstra(Graph*,NodeObject*,NodeObject*);
-    
+        Finders(Graph*);
+        std::vector<NodeObject*> breadthFirstSearch(NodeObject*,NodeObject*);
+        std::vector<NodeObject*> depthFirstSearch(NodeObject*,NodeObject*);
+        std::vector<NodeObject*> dijkstra(NodeObject*,NodeObject*);
+    private:
+        Graph* gr;
 };
 
 #endif

@@ -2,13 +2,12 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include "NodeObject.h"
 #include "Graph.h"
 #include "Finders.h"
 
 void print_menu();
 int get_choice();
-void do_job(int,Graph**);
+void do_job(int,Graph**,Finders*);
 void myAddNode(Graph*);
 void myRemoveNode(Graph*);
 void myAddEdge(Graph*);
@@ -16,18 +15,19 @@ void myRemoveEdge(Graph*);
 void clearGraph(Graph**);
 void readGraph(Graph*);
 void writeGraph(Graph*);
-bool in(int,std::vector<int>);
+void doSearch(Graph*,std::string,Finders*);
+//bool in(int,std::vector<int>);
 
 int main(){
 
     Graph *graph = new Graph();
-
+    Finders *finder = new Finders(graph);
     int input = 100;
 
     while(input != 0){
         print_menu();
         input = get_choice();
-        do_job(input, &graph);
+        do_job(input, &graph,finder);
     }
 
     delete graph;
@@ -45,6 +45,8 @@ void print_menu(){
     std::cout << "5) Print the current graph state" << std::endl;
     std::cout << "6) Clear Graph" << std::endl;
     std::cout << "7) Read Existing Graph" << std::endl;
+    std::cout << "8) Find Path using DFS" << std::endl;
+    std::cout << "9) Find Path using BFS" << std::endl;
     std::cout << "   Press '0' to exit and write to file" << std::endl;
     std::cout << "--------------------------------" << std::endl;
     std::cout << "Enter choice: " << std::endl;
@@ -64,7 +66,7 @@ int get_choice(){
     return user_in;
 }
 
-void do_job(int choice,Graph** graph){
+void do_job(int choice,Graph** graph,Finders *finder){
 
     int temp;
 
@@ -89,8 +91,11 @@ void do_job(int choice,Graph** graph){
                 return;
         case 7: readGraph(*graph);
                 return;
+        case 8: doSearch(*graph,"BFS",finder);
+                return;
+        case 9: doSearch(*graph,"DFS",finder);
+                return;
     }
-
 }
 
 void myAddNode(Graph* graph){
@@ -205,4 +210,31 @@ void clearGraph(Graph** graph){
     delete *graph;
 
     *graph = new Graph();
+}
+
+void doSearch(Graph *gr,std::string algo,Finders* finder){
+    NodeObject *start,*target;
+    int st,en;
+    std::cout<<"Please enter the ID of the starting node: ";
+    std::cin >> st;
+    start = gr->getNode(st);
+    std::cout<<"Please enter the ID of the target node: ";
+    std::cin >> en;
+    start = gr->getNode(en);
+
+    std::vector<NodeObject*> ans;
+
+    if(algo.compare("BFS") == 0)
+        ans = (finder->breadthFirstSearch(start,target));
+    else if(algo.compare("DFS") == 0)
+        ans = (finder->depthFirstSearch(start,target));
+    else if(algo.compare("Dijkstra") == 0)
+        ans = (finder->dijkstra(start,target));
+
+
+    std::vector<NodeObject*>::iterator i;
+    for(i = ans.begin();i!=ans.end()-1;++i)
+        std::cout << " " << (*i)->getID() << " <<";
+    
+    std::cout << " " << (*i)->getID()<<std::endl;
 }

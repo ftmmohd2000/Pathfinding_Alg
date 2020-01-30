@@ -1,12 +1,12 @@
-#include "Stack.h"
-#include "Queue.h"
 #include "Finders.h"
-#include "NodeObject.h"
-#include "Graph.h"
 
-std::vector<NodeObject*> Finders::breadthFirstSearch(Graph* gr,NodeObject* start,NodeObject* target){  
+Finders::Finders(Graph* grp){
+    Finders::gr = grp;
+}
 
-    gr->setUnseen();
+std::vector<NodeObject*> Finders::breadthFirstSearch(NodeObject* start,NodeObject* target){  
+
+    Finders::gr->setUnseen();
     Queue<NodeObject>* myQ = new Queue<NodeObject>();
     myQ->enqueue(start);
     start->setSeen(true);
@@ -15,7 +15,8 @@ std::vector<NodeObject*> Finders::breadthFirstSearch(Graph* gr,NodeObject* start
     while(!target->hasBeenSeen()){
         NodeObject* current = myQ->peek();
         std::vector<NodeObject*> curList = current->getChildren();
-        for(std::vector<NodeObject*>::iterator i = curList.begin();i!=curList.end();++i){
+        std::vector<NodeObject*>::iterator i;
+        for(i = curList.begin();i!=curList.end();++i){
             if(!(*i)->hasBeenSeen()){
                 (*i)->setSeen(true);
                 (*i)->pathRecord = current->pathRecord + current->getWeightOf(*i);
@@ -26,6 +27,8 @@ std::vector<NodeObject*> Finders::breadthFirstSearch(Graph* gr,NodeObject* start
                     myQ->enqueue(*i);
             }
         }
+        if((*i) != target)
+            myQ->dequeue();
     }
 
     NodeObject* current = target;
@@ -36,15 +39,15 @@ std::vector<NodeObject*> Finders::breadthFirstSearch(Graph* gr,NodeObject* start
         retVec.push_back(current);
     }
 
-    gr->setUnseen();
+    Finders::gr->setUnseen();
     
     return retVec;
 }
 
-std::vector<NodeObject*> Finders::depthFirstSearch(Graph* gr,NodeObject* start,NodeObject* target){
+std::vector<NodeObject*> Finders::depthFirstSearch(NodeObject* start,NodeObject* target){
 
     Stack<NodeObject>* myStack = new Stack<NodeObject>();
-    gr->setUnseen();
+    Finders::gr->setUnseen();
 
     myStack->push(start);
 
@@ -80,13 +83,13 @@ std::vector<NodeObject*> Finders::depthFirstSearch(Graph* gr,NodeObject* start,N
         retVec.push_back(current);
     }
 
-    gr->setUnseen();
+    Finders::gr->setUnseen();
     
     return retVec;
 
 }
 
-std::vector<NodeObject*> Finders::dijkstra(Graph* gr,NodeObject* start,NodeObject* target){
+std::vector<NodeObject*> Finders::dijkstra(NodeObject* start,NodeObject* target){
 
 
 
