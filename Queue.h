@@ -77,7 +77,7 @@ class Queue{
         
         }
         ~Queue(){}
-    private:
+    protected:
         int count;
         DTPT<T> *head;
         DTPT<T> *tail;

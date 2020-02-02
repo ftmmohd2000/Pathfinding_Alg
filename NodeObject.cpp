@@ -37,14 +37,14 @@ void NodeObject::addChild(NodeObject *newChild,int weight){
 
 void NodeObject::removeChild(NodeObject* toBeGone){
    
-    std::vector<NodeObject*>::iterator i;
+    int i;
 
-   for(i=NodeObject::children.begin();i!=NodeObject::children.end();++i)
-        if(*i == toBeGone){
-            NodeObject::children.erase(i);
-            NodeObject::nChildren--;
-            return;
+    for(i=0;i<NodeObject::children.size();i++){
+        if(NodeObject::children[i] == toBeGone){
+            NodeObject::children.erase(NodeObject::children.begin() + i);
+            NodeObject::weights.erase(NodeObject::weights.begin() + i);
         }
+    }
 }
 
 void NodeObject::addParent(NodeObject* newParent){

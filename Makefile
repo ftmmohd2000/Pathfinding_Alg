@@ -10,13 +10,7 @@ NodeObject.o: NodeObject.cpp NodeObject.h
 Graph.o: Graph.cpp Graph.h NodeObject.h
 	g++ -c Graph.cpp
 
-#Queue.o: Queue.cpp Queue.h
-#	g++ -c Queue.cpp
-
-#Stack.o: Stack.cpp Stack.h
-#	g++ -c Stack.cpp
-
-Finder.o: Finder.cpp Finder.h Stack.h Queue.h
+Finder.o: Finder.cpp Finder.h Stack.h Queue.h PriorityQ.h
 	g++ -c Finder.cpp
 
 clean:

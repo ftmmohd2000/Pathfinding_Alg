@@ -47,6 +47,7 @@ void print_menu(){
     std::cout << "7) Read Existing Graph" << std::endl;
     std::cout << "8) Find Path using BFS" << std::endl;
     std::cout << "9) Find Path using DFS" << std::endl;
+    std::cout << "10) Find Path using Dijkstra" << std::endl;
     std::cout << "   Press '0' to exit and write to file" << std::endl;
     std::cout << "--------------------------------" << std::endl;
     std::cout << "Enter choice: " << std::endl;
@@ -58,8 +59,8 @@ int get_choice(){
     std::cin >> user_in;
     while(getchar()!=10);
 
-    while(user_in > 9 || user_in < 0){
-        std::cout << "Wrong Choice. Enter a number from 1 to 7. 0 to exit: ";
+    while(user_in > 10 || user_in < 0){
+        std::cout << "Wrong Choice. Enter a number from 1 to 10. 0 to exit: ";
         std::cin >> user_in;
     }
 
@@ -94,6 +95,8 @@ void do_job(int choice,Graph** graph,Finder *finder){
         case 8: doSearch(*graph,"BFS",finder);
                 return;
         case 9: doSearch(*graph,"DFS",finder);
+                return;
+        case 10:doSearch(*graph,"Dijkstra",finder);
                 return;
     }
 }

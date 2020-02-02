@@ -99,9 +99,58 @@ std::vector<NodeObject*> Finder::depthFirstSearch(NodeObject* start,NodeObject* 
 }
 
 std::vector<NodeObject*> Finder::dijkstra(NodeObject* start,NodeObject* target){
+    Finder::gr->setUnseen();//Clear Graph memory
 
+    std::vector<NodeObject*> retVec;
 
+    if(start == target){
+        retVec.push_back(start);
+        return retVec;
+    }
 
+    PriorityQ* myQ = new PriorityQ(); //Queue to be used for BFS
+
+    myQ->enqueue(start); //Enqueue starting node
+    start->setSeen(true);
+    start->pathRecord = 0;
+    bool flag = true;
+    while(flag){
+        
+        NodeObject* current = myQ->peek();
+        
+        if(current == target || myQ->empty())
+            break;
+
+        std::vector<NodeObject*> childList = current->getChildren();
+
+        std::vector<NodeObject*>::iterator i;
+
+        for(i = childList.begin();i!=childList.end();++i){
+            int possible_cost = current->pathRecord + current->getWeightOf((*i));
+            if((*i)->hasBeenSeen()){
+                if((*i)->pathRecord > possible_cost){
+                    (*i)->pathRecord = possible_cost;
+                    (*i)->lastVisited = current;
+                }
+            }
+            else{
+                (*i)->setSeen(true);
+                (*i)->lastVisited = current;
+                (*i)->pathRecord = current->pathRecord + current->getWeightOf((*i));
+                myQ->enqueue((*i));
+            }
+        }
+        myQ->dequeue();
+    }
+
+    NodeObject* current = target;
+    retVec.push_back(current);
+    while(current!=start){
+        current = current->lastVisited;
+        retVec.push_back(current);
+    }
+    
+    return retVec;
 }
 
 void Finder::printStack(Stack<NodeObject> *ptr){

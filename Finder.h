@@ -2,6 +2,7 @@
 #include "Graph.h"
 #include "Stack.h"
 #include "Queue.h"
+#include "PriorityQ.h"
 
 #ifndef FINDERS_H
 #define FINDERS_H
