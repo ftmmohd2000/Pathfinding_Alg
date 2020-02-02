@@ -1,23 +1,23 @@
-output: main.o NodeObject.o Graph.o Queue.o Stack.o Finders.o
-	g++ main.o NodeObject.o Graph.o Queue.o Stack.o Finders.o -o output
+output: main.o NodeObject.o Graph.o Finder.o
+	g++ main.o NodeObject.o Graph.o Finder.o -o output
 
-main.o: main.cpp NodeObject.o Graph.o Finders.o
+main.o: main.cpp NodeObject.h Graph.h Finder.h
 	g++ -c main.cpp
 
 NodeObject.o: NodeObject.cpp NodeObject.h
-	g++ -c NodeObject.cpp NodeObject.h
+	g++ -c NodeObject.cpp
 
-Graph.o: Graph.cpp Graph.h
-	g++ -c Graph.cpp Graph.h
+Graph.o: Graph.cpp Graph.h NodeObject.h
+	g++ -c Graph.cpp
 
-Queue.o: Queue.cpp Queue.h
-	g++ -c Queue.cpp Queue.h
+#Queue.o: Queue.cpp Queue.h
+#	g++ -c Queue.cpp
 
-Stack.o: Stack.cpp Stack.h
-	g++ -c Stack.cpp Stack.h
+#Stack.o: Stack.cpp Stack.h
+#	g++ -c Stack.cpp
 
-Finders.o: Finders.cpp Finders.h Stack.o Queue.o
-	g++ -c Finders.cpp Finders.h
+Finder.o: Finder.cpp Finder.h Stack.h Queue.h
+	g++ -c Finder.cpp
 
 clean:
-	rm *.o *.gch output 
+	rm *.o output 

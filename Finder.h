@@ -6,12 +6,14 @@
 #ifndef FINDERS_H
 #define FINDERS_H
 
-class Finders{
+class Finder{
     public:
-        Finders(Graph*);
+        Finder(Graph*);
         std::vector<NodeObject*> breadthFirstSearch(NodeObject*,NodeObject*);
         std::vector<NodeObject*> depthFirstSearch(NodeObject*,NodeObject*);
         std::vector<NodeObject*> dijkstra(NodeObject*,NodeObject*);
+        void printStack(Stack<NodeObject>*);
+        void printQ(Queue<NodeObject>*);
     private:
         Graph* gr;
 };
