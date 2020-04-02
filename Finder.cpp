@@ -131,15 +131,17 @@ std::vector<NodeObject*> Finder::dijkstra(NodeObject* start,NodeObject* target){
                 if((*i)->pathRecord > possible_cost){
                     (*i)->pathRecord = possible_cost;
                     (*i)->lastVisited = current;
+                    myQ->enqueue((*i));
                 }
             }
             else{
                 (*i)->setSeen(true);
                 (*i)->lastVisited = current;
-                (*i)->pathRecord = current->pathRecord + current->getWeightOf((*i));
+                (*i)->pathRecord = possible_cost;
                 myQ->enqueue((*i));
             }
         }
+
         myQ->dequeue();
     }
 

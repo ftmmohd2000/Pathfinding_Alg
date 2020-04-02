@@ -16,7 +16,6 @@ void clearGraph(Graph**);
 void readGraph(Graph*);
 void writeGraph(Graph*);
 void doSearch(Graph*,std::string,Finder*);
-//bool in(int,std::vector<int>);
 
 int main(){
 
@@ -233,7 +232,6 @@ void doSearch(Graph *gr,std::string algo,Finder* finder){
         ans = (finder->depthFirstSearch(start,target));
     else if(algo.compare("Dijkstra") == 0)
         ans = (finder->dijkstra(start,target));
-
 
     std::vector<NodeObject*>::iterator i;
     for(i = ans.begin();i!=ans.end()-1;++i)
