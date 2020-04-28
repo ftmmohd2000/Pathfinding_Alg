@@ -25,6 +25,7 @@ class Queue{
             Queue::head = NULL;
             Queue::tail = NULL;
         }
+
         T* dequeue(){
             if(Queue::count == 0)
             return NULL;
@@ -42,9 +43,11 @@ class Queue{
 
             return retVal;
         }
+
         T* peek(){
             return Queue::head->data;
         }
+
         bool enqueue(T* object){
     
             DTPT<T>* newNode = new DTPT<T>(object);
@@ -64,9 +67,11 @@ class Queue{
 
             return true;
         }
+
         int size(){
             return Queue::count;
         }
+
         bool empty(){
         
         if(Queue::count == 0)
@@ -75,6 +80,7 @@ class Queue{
             return false;
         
         }
+        
         ~Queue(){}
     protected:
         int count;
