@@ -81,7 +81,6 @@ int NodeObject::getWeightOf(NodeObject* target){
             break;
 
     return NodeObject::weights[i];
-
 }
 
 void NodeObject::clearRecord(){
